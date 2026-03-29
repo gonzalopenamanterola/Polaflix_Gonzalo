@@ -2,7 +2,7 @@ package es.unican.gpm178.polaflix.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
@@ -20,7 +20,6 @@ public class Temporada {
     @Column(nullable = false)
     private int numeroTemporada;
 
-    @Temporal(TemporalType.DATE)
     private Date fechaEstreno;
 
     @ManyToOne(fetch = FetchType.LAZY)

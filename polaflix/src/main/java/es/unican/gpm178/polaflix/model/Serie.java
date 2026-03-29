@@ -2,7 +2,7 @@ package es.unican.gpm178.polaflix.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -24,9 +24,10 @@ public class Serie {
 
     private char inicial;
 
+    
     @ElementCollection
     @CollectionTable(name = "serie_creadores", joinColumns = @JoinColumn(name = "serie_id"))
-    @Column(name = "creador")
+    @Column(name = "creador", nullable = false)
     private List<String> creadores = new ArrayList<>();
 
     @ElementCollection

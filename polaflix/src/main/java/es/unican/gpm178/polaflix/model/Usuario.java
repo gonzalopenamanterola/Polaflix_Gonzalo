@@ -2,7 +2,7 @@ package es.unican.gpm178.polaflix.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -23,8 +23,7 @@ public class Usuario {
     @Column(nullable = false)
     private String iban;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "usuario_login")
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<Factura> facturas = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -32,26 +31,23 @@ public class Usuario {
     private TipoSuscripcion plan;
 
     @ManyToMany
-    @JoinTable(
-        name = "usuario_series_pendientes",
-        joinColumns = @JoinColumn(name = "usuario_login"),
-        inverseJoinColumns = @JoinColumn(name = "serie_id")
+    @JoinTable(name = "usuario_series_pendientes", 
+    joinColumns = @JoinColumn(name = "usuario_login"), 
+    inverseJoinColumns = @JoinColumn(name = "serie_id")
     )
     private List<Serie> seriesPendientes = new ArrayList<>();
 
     @ManyToMany
-    @JoinTable(
-        name = "usuario_series_empezadas",
-        joinColumns = @JoinColumn(name = "usuario_login"),
-        inverseJoinColumns = @JoinColumn(name = "serie_id")
+    @JoinTable(name = "usuario_series_empezadas", 
+    joinColumns = @JoinColumn(name = "usuario_login"), 
+    inverseJoinColumns = @JoinColumn(name = "serie_id")
     )
     private List<Serie> seriesEmpezadas = new ArrayList<>();
 
     @ManyToMany
-    @JoinTable(
-        name = "usuario_series_terminadas",
-        joinColumns = @JoinColumn(name = "usuario_login"),
-        inverseJoinColumns = @JoinColumn(name = "serie_id")
+    @JoinTable(name = "usuario_series_terminadas", 
+    joinColumns = @JoinColumn(name = "usuario_login"), 
+    inverseJoinColumns = @JoinColumn(name = "serie_id")
     )
     private List<Serie> seriesTerminadas = new ArrayList<>();
 

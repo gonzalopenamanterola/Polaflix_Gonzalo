@@ -2,9 +2,10 @@ package es.unican.gpm178.polaflix.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.List;
 
+@Entity
 @Table(name = "tipos_suscripcion")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo_plan", discriminatorType = DiscriminatorType.STRING)

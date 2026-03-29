@@ -2,7 +2,7 @@ package es.unican.gpm178.polaflix.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "capitulos")
@@ -12,6 +12,7 @@ import javax.persistence.*;
 public class Capitulo {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(nullable = false)
@@ -31,6 +32,6 @@ public class Capitulo {
     private Temporada temporada;
 
     public double getPrecio() {
-        return 0.0; // Lógica de cálculo o variable
+        return 0.0; 
     }
 }

@@ -2,7 +2,7 @@ package es.unican.gpm178.polaflix.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
@@ -24,7 +24,6 @@ public class Factura {
     @Column(name = "anio", nullable = false)
     private int año;
 
-    @Temporal(TemporalType.DATE)
     @Column(nullable = false)
     private Date fechaEmision;
 
@@ -37,4 +36,8 @@ public class Factura {
         joinColumns = @JoinColumn(name = "factura_id")
     )
     private List<Visualizacion> visualizaciones = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_login")
+    private Usuario usuario;
 }

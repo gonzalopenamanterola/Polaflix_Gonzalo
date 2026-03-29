@@ -2,17 +2,21 @@ package es.unican.gpm178.polaflix.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Date;
 
 
 @Entity
 @Data
+@Table(name = "visualizaciones")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Visualizacion {
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    
     @Column(nullable = false)
     private Date fechaHora;;
 

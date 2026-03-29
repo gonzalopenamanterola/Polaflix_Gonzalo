@@ -1,6 +1,6 @@
 package es.unican.gpm178.polaflix.model;
 import lombok.Data;
-import javax.persistence.Column;
+import jakarta.persistence.Column;
 import java.util.List;
 
 @Data
