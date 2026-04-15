@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import jakarta.persistence.*;
 import java.util.Date;
 
-
 @Entity
 @Data
 @Table(name = "visualizaciones")
@@ -18,7 +17,7 @@ public class Visualizacion {
     private int id;
     
     @Column(nullable = false)
-    private Date fechaHora;;
+    private Date fechaHora;
 
     @Column(nullable = false)
     private boolean facturado;
@@ -32,8 +31,15 @@ public class Visualizacion {
     @ManyToOne
     @JoinColumn(name = "serie_id")
     private Serie serie;
+
+    @ManyToOne
+    @JoinColumn(name = "factura_id")
+    private Factura factura;
     
     public Capitulo getCapitulo() {
-        return null; 
+        if (serie == null) {
+            return null;
+        }
+        return serie.buscarCapituloTemporada(idTemporada, idCapitulo);
     }
 }

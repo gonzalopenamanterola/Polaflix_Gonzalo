@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class Temporada {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(nullable = false)
@@ -26,6 +27,6 @@ public class Temporada {
     @JoinColumn(name = "serie_id", nullable = false)
     private Serie serie;
 
-    @OneToMany(mappedBy = "temporada", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "temporada", cascade = CascadeType.ALL)
     private List<Capitulo> capitulos = new ArrayList<>();
 }

@@ -30,11 +30,7 @@ public class Factura {
     @Column(nullable = false)
     private double importeTotal;
 
-    @ElementCollection
-    @CollectionTable(
-        name = "factura_visualizaciones",
-        joinColumns = @JoinColumn(name = "factura_id")
-    )
+    @OneToMany(mappedBy = "factura", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Visualizacion> visualizaciones = new ArrayList<>();
 
     @ManyToOne
