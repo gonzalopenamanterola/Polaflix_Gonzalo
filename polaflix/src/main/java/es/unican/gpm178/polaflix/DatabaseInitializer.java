@@ -5,9 +5,12 @@ import es.unican.gpm178.polaflix.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 public class DatabaseInitializer implements CommandLineRunner {
@@ -25,69 +28,80 @@ public class DatabaseInitializer implements CommandLineRunner {
     private FacturaRepository facturaRepository;
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
-        feedPersonas();
         feedSeries();
+        feedPersonasFromSeries();
         feedUsuarios();
         feedFacturas();
         testDatabase();
         System.out.println("Base de datos inicializada con datos de ejemplo");
     }
 
-    private void feedPersonas() {
-        Persona persona1 = new Persona(null, "Juan", "Pérez");
-        Persona persona2 = new Persona(null, "María", "García");
-        personaRepository.saveAll(Arrays.asList(persona1, persona2));
-    }
-
     private void feedSeries() {
         Serie serie1 = new Serie(
-                1,
+                0,
                 "Breaking Bad",
                 "Un profesor de química se adentra en el mundo de la metanfetamina",
                 'B',
-                Arrays.asList("Vince Gilligan"),
-                Arrays.asList("Bryan Cranston", "Aaron Paul"),
-                Categoria.ESTANDAR,
-                null
+                new HashSet<>(Arrays.asList("Vince Gilligan")),
+                new HashSet<>(Arrays.asList("Bryan Cranston", "Aaron Paul")),
+                Categoria.ESTANDAR
         );
 
         Serie serie2 = new Serie(
-                2,
+                0,
                 "Stranger Things",
                 "Niños y fenómenos paranormales en un pequeño pueblo de Estados Unidos",
                 'S',
-                Arrays.asList("The Duffer Brothers"),
-                Arrays.asList("Millie Bobby Brown", "Finn Wolfhard"),
-                Categoria.SILVER,
-                null
+                new HashSet<>(Arrays.asList("Duffer Brothers")),
+                new HashSet<>(Arrays.asList("Millie Bobby Brown", "Finn Wolfhard")),
+                Categoria.SILVER
         );
 
         serieRepository.saveAll(Arrays.asList(serie1, serie2));
     }
 
-    private void feedUsuarios() {
-        Usuario usuario1 = new Usuario(
-                "user1",
-                "password1",
-                "ES1234567890123456789012",
-                null,
-                null,
-                null,
-                null,
-                null
-        );
+    private void feedPersonasFromSeries() {
+        Set<String> nombresPersonas = new HashSet<>();
+        
+        // Extraer todos los creadores y actores de las series
+        serieRepository.findAll().forEach(serie -> {
+            if (serie.getCreadores() != null) {
+                nombresPersonas.addAll(serie.getCreadores());
+            }
+            if (serie.getActores() != null) {
+                nombresPersonas.addAll(serie.getActores());
+            }
+        });
+        
 
-        Usuario usuario2 = new Usuario(
-                "user2",
-                "password2",
-                "ES9876543210987654321098",
-                null,
-                null,
-                null,
-                null,
-                null
-        );
+        Set<Persona> personas = new HashSet<>();
+        for (String nombre : nombresPersonas) {
+            String[] partes = nombre.split("\\s+");
+            String nombrePersona = partes[0];
+            String apellido = partes.length > 1 ? partes[1] : "";
+            
+            Persona persona = new Persona();
+            persona.setNombre(nombrePersona);
+            persona.setApellido(apellido);
+            personas.add(persona);
+        }
+        
+        personaRepository.saveAll(personas);
+        System.out.println("Personas creadas desde creadores y actores: " + personas.size());
+    }
+
+    private void feedUsuarios() {
+        Usuario usuario1 = new Usuario();
+        usuario1.setLogin("user1");
+        usuario1.setPassword("password1");
+        usuario1.setIban("ES1234567890123456789012");
+
+        Usuario usuario2 = new Usuario();
+        usuario2.setLogin("user2");
+        usuario2.setPassword("password2");
+        usuario2.setIban("ES9876543210987654321098");
 
         usuarioRepository.saveAll(Arrays.asList(usuario1, usuario2));
     }
@@ -101,8 +115,8 @@ public class DatabaseInitializer implements CommandLineRunner {
             return;
         }
 
-        Factura factura1 = new Factura(0, 3, 2026, new Date(), 15.99, null, usuario1);
-        Factura factura2 = new Factura(0, 3, 2026, new Date(), 12.99, null, usuario2);
+        Factura factura1 = new Factura(0, 3, 2026, new Date(), 15.99, usuario1);
+        Factura factura2 = new Factura(0, 3, 2026, new Date(), 12.99, usuario2);
 
         facturaRepository.saveAll(Arrays.asList(factura1, factura2));
     }
@@ -122,8 +136,9 @@ public class DatabaseInitializer implements CommandLineRunner {
             System.out.println("Usuario 'user1' encontrado: " + u.getLogin() + ", IBAN=" + u.getIban());
         });
 
-        serieRepository.findById(1).ifPresent(s -> {
-            System.out.println("Serie 'Breaking Bad' encontrada: " + s.getTitulo());
-        });
+        serieRepository.findAll().stream()
+                .filter(s -> s.getTitulo().equals("Breaking Bad"))
+                .findFirst()
+                .ifPresent(s -> System.out.println("Serie 'Breaking Bad' encontrada: " + s.getTitulo()));
     }
 }

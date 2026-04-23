@@ -3,7 +3,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import jakarta.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "tipos_suscripcion")
@@ -15,8 +14,8 @@ import java.util.List;
 public abstract class TipoSuscripcion {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id; 
 
-    public abstract double calcularCostoMensual(List<Visualizacion> vistas);
+    public abstract double calcularCostoMensual();
 }

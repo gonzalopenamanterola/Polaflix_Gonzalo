@@ -1,10 +1,9 @@
 package es.unican.gpm178.polaflix.model;
-import java.util.List;
 
 public class SuscripcionEstandar extends TipoSuscripcion {
     
     @Override
-    public double calcularCostoMensual(List<Visualizacion> vistas) {
+    public double calcularCostoMensual() {
         return 0.0;
     }
 }

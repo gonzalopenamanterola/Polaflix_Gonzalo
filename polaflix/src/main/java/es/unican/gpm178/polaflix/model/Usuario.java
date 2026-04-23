@@ -3,6 +3,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,6 +24,7 @@ public class Usuario {
     @Column(nullable = false)
     private String iban;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private Set<Factura> facturas = new HashSet<>();
 
@@ -62,28 +64,5 @@ public class Usuario {
         seriesPendientes.add(s);
     }
 
-    public void marcarCapituloVisto(Capitulo c) {
-        if (c == null || c.getTemporada() == null) {
-            return;
-        }
-
-        Serie serie = c.getTemporada().getSerie();
-        if (serie == null) {
-            return;
-        }
-
-        seriesPendientes.remove(serie);
-        seriesEmpezadas.add(serie);
-
-        Capitulo ultimo = serie.getUltimoCapitulo();
-        if (ultimo != null && ultimo.getId() == c.getId()) {
-            seriesEmpezadas.remove(serie);
-            seriesTerminadas.add(serie);
-        }
-    }
-
-    public void seleccionarSerieVisualizar() {
-        // Este método se mantiene como punto de extensión del modelo,
-        // pero la lógica de estado se gestiona en los conjuntos de series.
-    }
+    public void seleccionarSerieVisualizar() { }
 }

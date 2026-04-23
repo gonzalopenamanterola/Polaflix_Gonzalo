@@ -1,21 +1,18 @@
 package es.unican.gpm178.polaflix.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Date;
-import java.util.List;
-import java.util.ArrayList;
 
 @Entity
 @Table(name = "facturas")
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class Factura {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @Column(nullable = false)
@@ -30,10 +27,17 @@ public class Factura {
     @Column(nullable = false)
     private double importeTotal;
 
-    @OneToMany(mappedBy = "factura", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Visualizacion> visualizaciones = new ArrayList<>();
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "usuario_login")
     private Usuario usuario;
+
+    public Factura(int id, int mes, int año, Date fechaEmision, double importeTotal, Usuario usuario) {
+        this.id = id;
+        this.mes = mes;
+        this.año = año;
+        this.fechaEmision = fechaEmision;
+        this.importeTotal = importeTotal;
+        this.usuario = usuario;
+    }
 }
