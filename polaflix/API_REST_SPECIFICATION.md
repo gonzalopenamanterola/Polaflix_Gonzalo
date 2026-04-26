@@ -8,11 +8,6 @@ API REST para la gestión de una plataforma de streaming de series de televisió
 http://localhost:8080/api
 ```
 
-## Autenticación
-Por implementar en futuras fases. Actualmente sin autenticación.
-
----
-
 ## Endpoints
 
 ### 1. Usuarios
