@@ -19,7 +19,7 @@ public class SerieService {
         return serieRepository.findAll();
     }
 
-    public Optional<Serie> obtenerSeriePorId(int id) {
+    public Optional<Serie> obtenerSeriePorId(Integer id) {
         return serieRepository.findById(id);
     }
 

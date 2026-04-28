@@ -8,6 +8,10 @@ API REST para la gestión de una plataforma de streaming de series de televisió
 http://localhost:8080/api
 ```
 
+## Swagger
+'''
+http://localhost:8080/swagger-ui/index.html
+'''
 ## Endpoints
 
 ### 1. Usuarios
