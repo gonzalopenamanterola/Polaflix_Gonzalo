@@ -3,13 +3,11 @@ package es.unican.gpm178.polaflix.dto;
 import es.unican.gpm178.polaflix.model.*;
 import org.springframework.stereotype.Component;
 
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
 public class DTOMapper {
 
-    // Usuario conversions
     public UsuarioDTO toUsuarioDTO(Usuario usuario) {
         if (usuario == null) {
             return null;
@@ -61,7 +59,6 @@ public class DTOMapper {
         return usuario;
     }
 
-    // Serie conversions
     public SerieDTO toSerieDTO(Serie serie) {
         if (serie == null) {
             return null;
@@ -94,7 +91,6 @@ public class DTOMapper {
         return serie;
     }
 
-    // Factura conversions
     public FacturaDTO toFacturaDTO(Factura factura) {
         if (factura == null) {
             return null;
@@ -129,7 +125,6 @@ public class DTOMapper {
         return factura;
     }
 
-    // Persona conversions
     public PersonaDTO toPersonaDTO(Persona persona) {
         if (persona == null) {
             return null;
@@ -152,7 +147,6 @@ public class DTOMapper {
         return persona;
     }
 
-    // TipoSuscripcion conversions
     public TipoSuscripcionDTO toTipoSuscripcionDTO(TipoSuscripcion suscripcion) {
         if (suscripcion == null) {
             return null;
@@ -164,7 +158,6 @@ public class DTOMapper {
         return dto;
     }
 
-    // Categoria conversions
     public CategoriaDTO toCategoriaDTO(Categoria categoria) {
         if (categoria == null) {
             return null;
@@ -179,7 +172,6 @@ public class DTOMapper {
         return Categoria.valueOf(dto.name());
     }
 
-    // Temporada conversions
     public TemporadaDTO toTemporadaDTO(Temporada temporada) {
         if (temporada == null) {
             return null;
@@ -214,7 +206,6 @@ public class DTOMapper {
         return temporada;
     }
 
-    // Capitulo conversions
     public CapituloDTO toCapituloDTO(Capitulo capitulo) {
         if (capitulo == null) {
             return null;
@@ -249,7 +240,6 @@ public class DTOMapper {
         return capitulo;
     }
 
-    // Visualizacion conversions
     public VisualizacionDTO toVisualizacionDTO(Visualizacion visualizacion) {
         if (visualizacion == null) {
             return null;

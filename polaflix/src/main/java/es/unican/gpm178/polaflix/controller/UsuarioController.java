@@ -93,15 +93,6 @@ public class UsuarioController {
                      .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Métodos privados para convertir a DTO
-    private UsuarioDTO toResumenDTO(Usuario usuario) {
-        if (usuario == null) {
-            return null;
-        }
-        UsuarioDTO dto = new UsuarioDTO();
-        dto.setLogin(usuario.getLogin());
-        return dto;
-    }
 
     private UsuarioDTO toCompletoDTO(Usuario usuario) {
         if (usuario == null) {

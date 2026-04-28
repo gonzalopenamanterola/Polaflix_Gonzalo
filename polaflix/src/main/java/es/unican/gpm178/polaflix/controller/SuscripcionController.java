@@ -21,8 +21,6 @@ public class SuscripcionController {
     @Autowired
     private SuscripcionService suscripcionService;
 
-    @Autowired
-    private DTOMapper dtoMapper;
 
     @GetMapping
     @JsonView(Vistas.TipoSuscripcionResumen.class)
