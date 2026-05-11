@@ -2,6 +2,8 @@ package es.unican.gpm178.polaflix.service;
 
 import es.unican.gpm178.polaflix.model.Usuario;
 import es.unican.gpm178.polaflix.model.Serie;
+import es.unican.gpm178.polaflix.dto.UsuarioDTO;
+import es.unican.gpm178.polaflix.dto.DTOMapper;
 import es.unican.gpm178.polaflix.repository.UsuarioRepository;
 import es.unican.gpm178.polaflix.repository.SerieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -21,12 +24,54 @@ public class UsuarioService {
     @Autowired
     private SerieRepository serieRepository;
 
+    @Autowired
+    private DTOMapper dtoMapper;
+
     public List<Usuario> obtenerTodosLosUsuarios() {
         return usuarioRepository.findAll();
     }
 
     public Optional<Usuario> obtenerUsuarioPorLogin(String login) {
         return usuarioRepository.findById(login);
+    }
+
+    public Optional<UsuarioDTO> obtenerUsuarioPorLoginDTO(String login) {
+        return usuarioRepository.findById(login).map(this::convertToDTO);
+    }
+
+    private UsuarioDTO convertToDTO(Usuario usuario) {
+        if (usuario == null) {
+            return null;
+        }
+        UsuarioDTO dto = new UsuarioDTO();
+        dto.setLogin(usuario.getLogin());
+        dto.setPassword(usuario.getPassword());
+        dto.setIban(usuario.getIban());
+        
+        // Load all collections here, within the transaction
+        Set<Serie> seriesPendientes = usuario.getSeriesPendientes();
+        Set<Serie> seriesEmpezadas = usuario.getSeriesEmpezadas();
+        Set<Serie> seriesTerminadas = usuario.getSeriesTerminadas();
+        
+        // Convert to DTOs
+        dto.setSeriesPendientes(seriesPendientes.stream()
+                .map(dtoMapper::toSerieDTO)
+                .collect(Collectors.toSet()));
+        dto.setSeriesEmpezadas(seriesEmpezadas.stream()
+                .map(dtoMapper::toSerieDTO)
+                .collect(Collectors.toSet()));
+        dto.setSeriesTerminadas(seriesTerminadas.stream()
+                .map(dtoMapper::toSerieDTO)
+                .collect(Collectors.toSet()));
+        dto.setFacturas(usuario.getFacturas().stream()
+                .map(dtoMapper::toFacturaDTO)
+                .collect(Collectors.toSet()));
+        
+        if (usuario.getPlan() != null) {
+            dto.setPlan(dtoMapper.toTipoSuscripcionDTO(usuario.getPlan()));
+        }
+        
+        return dto;
     }
 
     public Usuario crearUsuario(Usuario usuario) {

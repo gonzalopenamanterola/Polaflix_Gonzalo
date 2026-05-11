@@ -107,7 +107,7 @@ public class DatabaseInitializer implements CommandLineRunner {
     }
 
     private void feedFacturas() {
-        Usuario usuario1 = usuarioRepository.findById("user1").orElse(null);
+        Usuario usuario1 = usuarioRepository.findById("torrente").orElse(null);
         Usuario usuario2 = usuarioRepository.findById("user2").orElse(null);
 
         if (usuario1 == null || usuario2 == null) {
@@ -132,8 +132,8 @@ public class DatabaseInitializer implements CommandLineRunner {
         System.out.println("Facturas cargadas = " + facturas);
         System.out.println("Personas cargadas = " + personas);
 
-        usuarioRepository.findById("user1").ifPresent(u -> {
-            System.out.println("Usuario 'user1' encontrado: " + u.getLogin() + ", IBAN=" + u.getIban());
+        usuarioRepository.findById("torrente").ifPresent(u -> {
+            System.out.println("Usuario 'torrente' encontrado: " + u.getLogin() + ", IBAN=" + u.getIban());
         });
 
         serieRepository.findAll().stream()

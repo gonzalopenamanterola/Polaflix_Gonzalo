@@ -41,6 +41,10 @@
           </div>
           
           <div class="series-content">
+            <p *ngIf="getCategoriaName(serie.categoria)" class="series-categoria-main">
+              <strong>Categoría:</strong> {{ getCategoriaName(serie.categoria) }}
+            </p>
+            
             <p class="series-description">{{ serie.descripcion || serie.sinopsis || 'Sin descripción disponible' }}</p>
             
             <div *ngIf="formatStringSet(serie.creadores)" class="series-info">
@@ -52,10 +56,6 @@
               <strong>Actores:</strong> 
               <span class="info-text">{{ formatStringSet(serie.actores) }}</span>
             </div>
-            
-            <p *ngIf="getCategoriaName(serie.categoria)" class="series-categoria">
-              <strong>Categoría:</strong> {{ getCategoriaName(serie.categoria) }}
-            </p>
           </div>
         </div>
       </div>

@@ -22,7 +22,7 @@ public class SerieDTO {
     @NotBlank(message = "El título de la serie no puede estar vacío")
     private String titulo;
 
-    @JsonView(Vistas.SerieCompleto.class)
+    @JsonView(Vistas.SerieResumen.class)
     private String sinopsis;
 
     @JsonView(Vistas.SerieResumen.class)

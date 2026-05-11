@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { Usuario } from '../models/models';
 import { environment } from '../../environments/environment';
 
@@ -46,9 +46,24 @@ export class UserService {
    */
   addSeriesToPendientes(login: string, serieId: number): Observable<any> {
     const url = `${this.apiUrl}/${login}/series-pendientes/${serieId}`;
-    console.log('POST request to:', url);
-    return this.http.post(url, null, {
-      responseType: 'text'
-    });
+    console.log('Sending POST request to:', url);
+    console.log('Login:', login, 'SerieId:', serieId);
+    return this.http.post(url, {}).pipe(
+      tap(() => {
+        console.log('Successfully added serie to pendientes');
+      })
+    );
+  }
+
+  /**
+   * Refresh user data from backend
+   * This ensures the frontend is in sync with the backend database
+   */
+  refreshUserData(login: string): Observable<Usuario> {
+    return this.getUserByLogin(login).pipe(
+      tap(userData => {
+        console.log('User data refreshed from backend:', userData);
+      })
+    );
   }
 }

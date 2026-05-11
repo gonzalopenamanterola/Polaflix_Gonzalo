@@ -1,5 +1,7 @@
 package es.unican.gpm178.polaflix.model;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 import java.util.HashSet;
@@ -7,8 +9,10 @@ import java.util.Set;
 
 @Entity
 @Table(name = "series")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Serie {
 
     @Id

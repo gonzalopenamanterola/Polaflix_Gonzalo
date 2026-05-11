@@ -7,9 +7,9 @@ public final class Vistas {
     public interface Public {}
 
     public interface UsuarioResumen extends Public {}
-    public interface UsuarioCompleto extends UsuarioResumen {}
+    public interface UsuarioCompleto extends UsuarioResumen, SerieResumen, FacturaResumen {}
 
-    public interface SerieResumen extends Public {}
+    public interface SerieResumen extends UsuarioResumen {}
     public interface SerieCompleto extends SerieResumen {}
 
     public interface FacturaResumen extends Public {}

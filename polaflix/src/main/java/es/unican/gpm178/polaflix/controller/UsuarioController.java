@@ -39,9 +39,9 @@ public class UsuarioController {
     @GetMapping("/{login}")
     @JsonView(Vistas.UsuarioCompleto.class)
     public ResponseEntity<UsuarioDTO> obtenerUsuarioPorLogin(@PathVariable String login) {
-        Optional<Usuario> usuario = usuarioService.obtenerUsuarioPorLogin(login);
-        return usuario.map(u -> ResponseEntity.ok(toCompletoDTO(u)))
-                      .orElseGet(() -> ResponseEntity.notFound().build());
+        Optional<UsuarioDTO> usuarioDTO = usuarioService.obtenerUsuarioPorLoginDTO(login);
+        return usuarioDTO.map(ResponseEntity::ok)
+                         .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -102,7 +102,11 @@ public class UsuarioController {
         dto.setLogin(usuario.getLogin());
         dto.setPassword(usuario.getPassword());
         dto.setIban(usuario.getIban());
-        
+        dto.setSeriesPendientes(usuario.getSeriesPendientes().stream().map(dtoMapper::toSerieDTO).collect(Collectors.toSet()));
+        dto.setSeriesEmpezadas(usuario.getSeriesEmpezadas().stream().map(dtoMapper::toSerieDTO).collect(Collectors.toSet()));
+        dto.setSeriesTerminadas(usuario.getSeriesTerminadas().stream().map(dtoMapper::toSerieDTO).collect(Collectors.toSet()));
+        dto.setFacturas(usuario.getFacturas().stream().map(dtoMapper::toFacturaDTO).collect(Collectors.toSet()));
+
         if (usuario.getPlan() != null) {
             dto.setPlan(dtoMapper.toTipoSuscripcionDTO(usuario.getPlan()));
         }

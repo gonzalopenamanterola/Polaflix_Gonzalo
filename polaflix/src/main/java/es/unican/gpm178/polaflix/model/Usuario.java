@@ -1,7 +1,9 @@
 package es.unican.gpm178.polaflix.model;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.HashSet;
@@ -9,9 +11,11 @@ import java.util.Set;
 
 @Entity
 @Table(name = "usuarios")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Usuario {
 
     @Id

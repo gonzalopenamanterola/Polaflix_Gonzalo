@@ -11,12 +11,13 @@ import { Serie } from '../../models/models';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  userName: string = 'Torrente'; // Demo user
+  userName: string = 'Torrente'; 
   seriesEmpezadas: Serie[] = [];
   seriesPendientes: Serie[] = [];
   seriesTerminadas: Serie[] = [];
   isLoading: boolean = true;
   errorMessage: string = '';
+  private userLogin: string = 'torrente'; 
 
   constructor(private userService: UserService) { }
 
@@ -25,29 +26,29 @@ export class HomeComponent implements OnInit {
   }
 
   loadUserSeries(): void {
-    const login = 'torrente'; // Demo login, could be taken from auth service
+    this.isLoading = true;
     
-    this.userService.getUserSeriesEmpezadas(login).subscribe({
+    this.userService.getUserSeriesEmpezadas(this.userLogin).subscribe({
       next: (series) => {
         this.seriesEmpezadas = series;
       },
       error: (error) => {
         console.error('Error loading empezadas series:', error);
-        this.seriesEmpezadas = []; // Empty for demo
+        this.seriesEmpezadas = [];
       }
     });
 
-    this.userService.getUserSeriesPendientes(login).subscribe({
+    this.userService.getUserSeriesPendientes(this.userLogin).subscribe({
       next: (series) => {
         this.seriesPendientes = series;
       },
       error: (error) => {
         console.error('Error loading pendientes series:', error);
-        this.seriesPendientes = []; // Empty for demo
+        this.seriesPendientes = []; 
       }
     });
 
-    this.userService.getUserSeriesTerminadas(login).subscribe({
+    this.userService.getUserSeriesTerminadas(this.userLogin).subscribe({
       next: (series) => {
         this.seriesTerminadas = series;
         this.isLoading = false;
@@ -58,5 +59,10 @@ export class HomeComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  refreshUserSeries(): void {
+    console.log('Refreshing user series from backend');
+    this.loadUserSeries();
   }
 }
