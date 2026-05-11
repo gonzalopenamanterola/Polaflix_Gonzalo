@@ -1,0 +1,64 @@
+<div class="catalog-container">
+  <h1>Catálogo de Series</h1>
+
+  <!-- Alphabet Navigation -->
+  <div class="alphabet-navigation">
+    <button class="alpha-btn" [class.active]="selectedLetter === ''" (click)="showAll()">
+      Todos
+    </button>
+    <button *ngFor="let letter of alphabet" 
+            class="alpha-btn" 
+            [class.active]="selectedLetter === letter"
+            (click)="filterByLetter(letter)">
+      {{ letter }}
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading">
+    <p>Cargando catálogo...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="errorMessage && !isLoading" class="error-message">
+    <p>{{ errorMessage }}</p>
+  </div>
+
+  <!-- Series List -->
+  <div *ngIf="!isLoading && !errorMessage" class="series-catalog">
+    <div *ngIf="filteredSeries.length === 0" class="empty-message">
+      <p>No hay series disponibles con la letra seleccionada</p>
+    </div>
+
+    <div class="series-grid">
+      <div *ngFor="let serie of filteredSeries" class="series-item">
+        <div class="series-card">
+          <div class="series-header">
+            <h3 class="series-title">{{ serie.titulo }}</h3>
+            <button class="agregar-btn" (click)="addSeriesToPendientes(serie)" title="Agregar a pendientes">
+              Agregar
+            </button>
+          </div>
+          
+          <div class="series-content">
+            <p class="series-description">{{ serie.descripcion || serie.sinopsis || 'Sin descripción disponible' }}</p>
+            
+            <div *ngIf="formatStringSet(serie.creadores)" class="series-info">
+              <strong>Creadores:</strong> 
+              <span class="info-text">{{ formatStringSet(serie.creadores) }}</span>
+            </div>
+            
+            <div *ngIf="formatStringSet(serie.actores)" class="series-info">
+              <strong>Actores:</strong> 
+              <span class="info-text">{{ formatStringSet(serie.actores) }}</span>
+            </div>
+            
+            <p *ngIf="getCategoriaName(serie.categoria)" class="series-categoria">
+              <strong>Categoría:</strong> {{ getCategoriaName(serie.categoria) }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

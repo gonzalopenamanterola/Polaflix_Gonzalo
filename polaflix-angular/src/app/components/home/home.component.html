@@ -1,0 +1,59 @@
+<div class="home-container">
+  <div class="welcome-section">
+    <h1>Bienvenido {{ userName }}</h1>
+  </div>
+
+  <div *ngIf="isLoading" class="loading">
+    <p>Cargando series...</p>
+  </div>
+
+  <div *ngIf="!isLoading" class="series-sections">
+    <!-- Empezadas Section -->
+    <section class="series-section">
+      <h2>Empezadas</h2>
+      <div class="series-list">
+        <div *ngIf="seriesEmpezadas.length === 0" class="empty-message">
+          <p>No hay series empezadas</p>
+        </div>
+        <div *ngFor="let serie of seriesEmpezadas" class="series-item">
+          <div class="series-card">
+            <div class="series-title">{{ serie.titulo }}</div>
+            <div class="series-description">{{ serie.descripcion }}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pendientes Section -->
+    <section class="series-section">
+      <h2>Pendientes</h2>
+      <div class="series-list">
+        <div *ngIf="seriesPendientes.length === 0" class="empty-message">
+          <p>No hay series pendientes</p>
+        </div>
+        <div *ngFor="let serie of seriesPendientes" class="series-item">
+          <div class="series-card">
+            <div class="series-title">{{ serie.titulo }}</div>
+            <div class="series-description">{{ serie.descripcion }}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Terminadas Section -->
+    <section class="series-section">
+      <h2>Terminadas</h2>
+      <div class="series-list">
+        <div *ngIf="seriesTerminadas.length === 0" class="empty-message">
+          <p>No hay series terminadas</p>
+        </div>
+        <div *ngFor="let serie of seriesTerminadas" class="series-item">
+          <div class="series-card">
+            <div class="series-title">{{ serie.titulo }}</div>
+            <div class="series-description">{{ serie.descripcion }}</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+# dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# build
+dist/
+out-tsc/
+.ng/
+
+# angular
+.angular/
+
+# environment
+environment.prod.ts
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE specific
+*.sublime-workspace
+*.sublime-project
+.project
+.classpath
+.c9/
+
+# testing
+coverage/

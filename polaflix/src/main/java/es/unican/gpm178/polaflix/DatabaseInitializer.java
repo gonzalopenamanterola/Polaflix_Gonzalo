@@ -94,7 +94,7 @@ public class DatabaseInitializer implements CommandLineRunner {
 
     private void feedUsuarios() {
         Usuario usuario1 = new Usuario();
-        usuario1.setLogin("user1");
+        usuario1.setLogin("torrente");
         usuario1.setPassword("password1");
         usuario1.setIban("ES1234567890123456789012");
 

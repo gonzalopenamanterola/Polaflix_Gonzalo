@@ -25,11 +25,11 @@ public class SerieController {
     private DTOMapper dtoMapper;
 
     @GetMapping
-    @JsonView(Vistas.SerieResumen.class)
+    @JsonView(Vistas.SerieCompleto.class)
     public ResponseEntity<List<SerieDTO>> obtenerTodasLasSeries() {
         List<Serie> series = serieService.obtenerTodasLasSeries();
         List<SerieDTO> seriesDTO = series.stream()
-                .map(this::toResumenDTO)
+                .map(this::toCompletoDTO)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(seriesDTO);
     }
